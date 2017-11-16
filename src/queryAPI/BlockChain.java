@@ -1,13 +1,9 @@
 package queryAPI;
 
-import java.io.File;
-import java.lang.reflect.Field;
+
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-
-import com.google.gson.JsonObject;
 
 
 /*

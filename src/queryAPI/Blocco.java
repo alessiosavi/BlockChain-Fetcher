@@ -16,6 +16,10 @@ import com.google.gson.JsonObject;
 /*
  * La classe blocco è la rappresentazione d
  */
+/**
+ * @author IT059959
+ *
+ */
 public class Blocco {
 	
 	private String hash;
@@ -72,7 +76,6 @@ public class Blocco {
 						System.out.println(key+" -> "+ oggettoAPI.get((String) key));	
 					}
 			}
-				
 	
 
 	
@@ -132,7 +135,6 @@ public class Blocco {
 		this.modifierchecksum = modifierchecksum;
 	}
 
-	
 	public String getHash() {
 		return hash;
 	}
@@ -245,7 +247,6 @@ public class Blocco {
 		this.tx = tx;
 	}
 
-	
 	public Blocco() {
 		System.out.println("Sono un blocco vuoto :( perchè mi fai questo :'0 ");
 	}
