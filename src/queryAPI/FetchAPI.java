@@ -22,10 +22,66 @@ import com.google.gson.JsonParser;
 //Spetterà ad un'altra classe il compito di "decodificare" l'oggetto json nell'apposita classe Blocco
 public class FetchAPI {
 
-	public static String link = "http://framechain.ddns.net/api/";
-	public static String apiGetBlockHASH = "getblock?hash=";
-	public static String apiGetBlockNUMBER = "getblockhash?index=";
-	public static String apiGetBlockCOUNT = "getblockcount";
+	private static String link = "http://framechain.ddns.net/api/";
+	private static String apiGetBlockHASH = "getblock?hash=";
+	private static String apiGetBlockNUMBER = "getblockhash?index=";
+	private static String apiGetBlockCOUNT = "getblockcount";
+	public static String getLink() {
+		return link;
+	}
+
+	public static void setLink(String link) {
+		FetchAPI.link = link;
+	}
+
+	public static String getApiGetBlockHASH() {
+		return apiGetBlockHASH;
+	}
+
+	public static void setApiGetBlockHASH(String apiGetBlockHASH) {
+		FetchAPI.apiGetBlockHASH = apiGetBlockHASH;
+	}
+
+	public static String getApiGetBlockNUMBER() {
+		return apiGetBlockNUMBER;
+	}
+
+	public static void setApiGetBlockNUMBER(String apiGetBlockNUMBER) {
+		FetchAPI.apiGetBlockNUMBER = apiGetBlockNUMBER;
+	}
+
+	public static String getApiGetBlockCOUNT() {
+		return apiGetBlockCOUNT;
+	}
+
+	public static void setApiGetBlockCOUNT(String apiGetBlockCOUNT) {
+		FetchAPI.apiGetBlockCOUNT = apiGetBlockCOUNT;
+	}
+
+	public URL getUrl() {
+		return url;
+	}
+
+	public void setUrl(URL url) {
+		this.url = url;
+	}
+
+	public HttpURLConnection getRequest() {
+		return request;
+	}
+
+	public void setRequest(HttpURLConnection request) {
+		this.request = request;
+	}
+
+	public BufferedReader getBuf() {
+		return buf;
+	}
+
+	public void setBuf(BufferedReader buf) {
+		this.buf = buf;
+	}
+
 	// public static String hash =
 	// "00000000c55a663c30e69d208049c680ccbfe97e4ebea4b1339e70af156eb368";
 	private URL url;
@@ -33,9 +89,8 @@ public class FetchAPI {
 	private BufferedReader buf;
 
 	/**
-	 * @param blockNumber
-	 *            -> numbero intero del blocco di cui si deve trovare l'hash
-	 * @return String -> HASH del blocco
+	 * @param blockNumber ->> numbero intero del blocco di cui si deve trovare l'hash
+	 * @return String ->> HASH del blocco
 	 * @throws IOException
 	 * 
 	 *             - Il metodo prende come parametro il numero del blocco e apre una
@@ -57,11 +112,9 @@ public class FetchAPI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// La chiamata API restituisce solamente una stringa, contenente l'HASH del blocco.
 		contenent = buf.readLine().toString();
-		//System.out.println(contenent);
 		return contenent;
-		//JsonObject ogg = getBlock(contenent);
-		//return ogg;
 	}
 
 	/**
@@ -86,7 +139,6 @@ public class FetchAPI {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		// Convert to a JSON object to print data
 		JsonParser jp = new JsonParser(); // from gson
 		JsonElement root = null;
