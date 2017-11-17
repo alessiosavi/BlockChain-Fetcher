@@ -23,7 +23,15 @@ public class Main {
 		 * questo specifico passaggio non so quanto può essere utile, getBlock è già un
 		 * oggetto JSON.
 		 */
-		oggettoJSON = getBlock.getBlockHash(1337);
+		
+		//oggettoJSON = getBlock.getBlockHash(1337);
+		String hash;
+		int nBlocchi=getBlock.getBlockCount();
+		for (int i=0; i < nBlocchi; i++) {
+			hash=getBlock.getBlockHash(i);
+			oggettoJSON=getBlock.getBlock(hash);
+			System.out.println(oggettoJSON);
+		}
 		// System.out.println(oggettoJSON);
 		// chain=new BlockChain();
 		/*

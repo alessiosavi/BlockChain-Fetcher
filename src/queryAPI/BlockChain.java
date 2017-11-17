@@ -15,12 +15,20 @@ import java.util.List;
 public class BlockChain  {
 	/*
 	 * Questa classe sarà l'ArrayList che conterrà la blockchain
-	 * 
+	 * L'idea è quella di utlizzare la funzione di FetchApi-> getBlock per ottenere le informazioni
+	 * relative al blocco. Una volta ottentuo l'oggetto JSON, dovremo riuscire a convertire le informazioni
+	 * nei campi del blocco 
+	 * ######### PUO' ESSERE UTILE CREARE UN COSTRUTTORE CHE PRENDE UN OGGETTO JSON E INSERISCE LE INFO NEL BLOCCO
 	 */
 	private List<Blocco> chain = new ArrayList<Blocco>();
 	private Blocco blocco=new Blocco();
+
+	
+	
 	
 	public BlockChain() throws MalformedURLException{
+		
+		
 		
 	}
 	

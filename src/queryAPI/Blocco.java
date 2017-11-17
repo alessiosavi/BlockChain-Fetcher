@@ -71,9 +71,13 @@ public class Blocco {
 	// nella classe blocco utilizzando il costruttore
 	//key -> è il nome della variabile contenuta nel file json
 	//	|
-	/*	\->	*/public Blocco (JsonObject oggettoAPI) {
+	/*	\->	*/
+	public Blocco (JsonObject oggettoAPI) {
+				String value= null;
 					for (Object key: oggettoAPI.keySet()) {
-						System.out.println(key+" -> "+ oggettoAPI.get((String) key));	
+						value=oggettoAPI.get((String) key).toString();
+						value=value.replace("\"", "").replace("[", "").replace("]", "");
+						//System.out.println(key+" -> "+value);
 					}
 			}
 	

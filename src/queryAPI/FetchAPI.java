@@ -8,12 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
 import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 
 //hash -> 00000000c55a663c30e69d208049c680ccbfe97e4ebea4b1339e70af156eb368
 // api -> getblock?hash=
@@ -27,7 +24,8 @@ public class FetchAPI {
 
 	public static String link = "http://framechain.ddns.net/api/";
 	public static String apiGetBlockHASH = "getblock?hash=";
-	public static String apiGetBlockNUMBER = "/getblockhash?index=";
+	public static String apiGetBlockNUMBER = "getblockhash?index=";
+	public static String apiGetBlockCOUNT = "getblockcount";
 	// public static String hash =
 	// "00000000c55a663c30e69d208049c680ccbfe97e4ebea4b1339e70af156eb368";
 	private URL url;
@@ -48,30 +46,22 @@ public class FetchAPI {
 	 *             parametro. [DEBUG ON] -> Il metodo non restituisce una stringa,
 	 *             ma un oggetto utilizzasto per testare la corretta esecuzione.
 	 */
-	public JsonObject getBlockHash(int blockNumber) throws IOException {
-		System.out.println("getBlockHash iniziato");
+
+	public String getBlockHash(int blockNumber) throws IOException {
+		String contenent = null;
 		url = new URL(link + "" + apiGetBlockNUMBER + "" + blockNumber);
 		try {
 			request = (HttpURLConnection) url.openConnection();
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
-		try {
 			request.connect();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		String contenent = null;
-		try {
 			buf = new BufferedReader(new InputStreamReader((InputStream) request.getContent()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Sono getBlockHash");
 		contenent = buf.readLine().toString();
-		System.out.println(contenent);
-		JsonObject ogg = getBlock(contenent);
-		return ogg;
+		//System.out.println(contenent);
+		return contenent;
+		//JsonObject ogg = getBlock(contenent);
+		//return ogg;
 	}
 
 	/**
@@ -87,17 +77,14 @@ public class FetchAPI {
 	 *             proprio.
 	 * 
 	 */
+	
 	public JsonObject getBlock(String hash) throws MalformedURLException {
 		url = new URL(link + "" + apiGetBlockHASH + "" + hash);
 		try {
 			request = (HttpURLConnection) url.openConnection();
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
-		try {
 			request.connect();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		// Convert to a JSON object to print data
@@ -105,10 +92,6 @@ public class FetchAPI {
 		JsonElement root = null;
 		try {
 			root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
-		} catch (JsonIOException e) {
-			e.printStackTrace();
-		} catch (JsonSyntaxException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} // Convert the input
@@ -118,4 +101,19 @@ public class FetchAPI {
 		return oggetto;
 	}
 
+	public int getBlockCount() throws IOException {
+		url = new URL(link + "" + apiGetBlockCOUNT);
+		String contenent;
+		try {
+			request = (HttpURLConnection) url.openConnection();
+			request.connect();
+			buf = new BufferedReader(new InputStreamReader((InputStream) request.getContent()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		contenent = buf.readLine().toString();
+		//System.out.println(contenent +" ");
+		int temp=Integer.parseInt(contenent);
+		return temp;
+	}
 }
