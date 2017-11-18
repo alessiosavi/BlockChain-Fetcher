@@ -11,7 +11,7 @@ import java.util.List;
  * esegue una chiamata API al sito e ritorna l'oggetto Blocco corrispondente al numero passato come parametro.
  */
 
-public class BlockChain{
+public class BlockChain {
 	/*
 	 * Questa classe sarà l'ArrayList che conterrà la blockchain L'idea è quella di
 	 * utlizzare la funzione di FetchApi-> getBlock per ottenere le informazioni
@@ -29,35 +29,36 @@ public class BlockChain{
 	 */
 
 	private List<Object> chain = new ArrayList<Object>();
-	public static FetchAPI api=new FetchAPI(); // <<- Si occupa di prendere i blocchi tramite API [restituisce Oggetto JSON
-	int nBlocchi = 20;//api.getBlockCount();
+	public static FetchAPI api = new FetchAPI(); // <<- Si occupa di prendere i blocchi tramite API [restituisce Oggetto
+													// JSON
+	int nBlocchi = 20;// api.getBlockCount();
 	int nThread = 8; // non utilizzata!!
 	int blocchiThread = nBlocchi / nThread;
-	public static Blocco blocco; 
+	public static Blocco blocco;
 
 	public BlockChain(int n) throws IOException {
-		for (int i=0;i<n ;i++) {
-			chain.add(api.getBlock(i));
+		for (int i = 0; i < n; i++) {
+			chain.add(new Blocco(api.getBlock(i)));
 			System.out.println("/-> BLOCK " + i + "<-\\");
 			System.out.println(chain.get(i));
 		}
 		printChain();
 	}
 
-		
 	public void printChain() {
-		int i=0;
-		stampa("INIZIO STAMPA CHAIN COMPLETA");
-		for (Object b: chain) {
-			System.out.println(i+") "+ b.toString());
+		int i = 0;
+		stampa("INIZIO STAMPA CHAIN [stmp1]");
+		for (Object b : chain) {
+			System.out.println(i + ") " + b.toString());
 			i++;
 		}
-		stampa("FINE STAMPA CHAIN COMPLETA");
+		stampa("FINE STAMPA CHAIN COMPLETA [stmp1]");
 
 	}
-	public void stampa(String nThread) {
+
+	public void stampa(String Stringa) {
 		System.out.println("#############################");
-		System.out.println("#######INIZIO " + nThread + "##########");
+		System.out.println("#######" + nThread + "##########");
 		System.out.println("#############################");
 	}
 

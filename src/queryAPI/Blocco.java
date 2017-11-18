@@ -25,37 +25,27 @@ import com.google.gson.JsonObject;
  */
 public class Blocco {
 
-	Map<String, String> blocco=new HashMap<String, String>();
+	Map<String, String> blocco = new HashMap<String, String>();
 	/*
-	private String hash;
-	private int confirmation;
-	private int size;
-	private int height;
-	private int version; // ????
-	private String merkleroot;
-	private int mint;
-	private int time; // esempio--> 15092044
-	private int nonce;
-	private int bits;
-	private float difficulty;
-	private String blocktrust;
-	private String chaintrust;
-	private String previousHash;// hash del blocco precedente
-	private String nextHash;// Hash del blocco successivo
-	private String flags;// deve ammettere due tipi -> "proof-of-work"\"proof-of-stake"
-	private String proofHash;// corrisponde alla soluzione, all'hash del blocco
-	private String entropybit;
-	private String modifier;
-	private String modifierchecksum;
-	private String[] tx; // hash della transazione, merkleroot
-	*/
+	 * private String hash; private int confirmation; private int size; private int
+	 * height; private int version; // ???? private String merkleroot; private int
+	 * mint; private int time; // esempio--> 15092044 private int nonce; private int
+	 * bits; private float difficulty; private String blocktrust; private String
+	 * chaintrust; private String previousHash;// hash del blocco precedente private
+	 * String nextHash;// Hash del blocco successivo private String flags;// deve
+	 * ammettere due tipi -> "proof-of-work"\"proof-of-stake" private String
+	 * proofHash;// corrisponde alla soluzione, all'hash del blocco private String
+	 * entropybit; private String modifier; private String modifierchecksum; private
+	 * String[] tx; // hash della transazione, merkleroot
+	 */
 	/*
 	 * Semplice costruttore 1=1
 	 */
 
 	/*
 	 * Il costruttore della classe Blocco prende un oggetto JSON come parametro.
-	 * Ogni coppia di informazioni è salvata in una mappa [che costituisce il "Blocco" stesso]
+	 * Ogni coppia di informazioni è salvata in una mappa [che costituisce il
+	 * "Blocco" stesso]
 	 */
 
 	public Blocco(JsonObject oggettoAPI) {
@@ -68,13 +58,12 @@ public class Blocco {
 			blocco.put((String) key, value);
 		}
 	}
-	
-	public boolean stampaBlocco(){
+
+	public boolean stampaBlocco() {
 		for (Object obj : blocco.keySet()) {
 			System.out.println(obj);
 		}
-		
-		
+
 		return true;
 	}
 
