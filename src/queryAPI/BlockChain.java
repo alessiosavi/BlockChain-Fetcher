@@ -11,7 +11,7 @@ import java.util.List;
  * esegue una chiamata API al sito e ritorna l'oggetto Blocco corrispondente al numero passato come parametro.
  */
 
-public class BlockChain {
+public class BlockChain{
 	/*
 	 * Questa classe sarà l'ArrayList che conterrà la blockchain L'idea è quella di
 	 * utlizzare la funzione di FetchApi-> getBlock per ottenere le informazioni
@@ -28,70 +28,37 @@ public class BlockChain {
 	 * (multithreading, sicurezza in sezione critica)
 	 */
 
-	@SuppressWarnings("rawtypes")
-	private ArrayList<ArrayList> chain = new ArrayList<>();
-	private ArrayList<Object> blocco = new ArrayList<>();
-	public static FetchAPI api; // JsonObject
-	public static Blocco oggettoJSON;
+	private List<Object> chain = new ArrayList<Object>();
+	public static FetchAPI api=new FetchAPI(); // <<- Si occupa di prendere i blocchi tramite API [restituisce Oggetto JSON
+	int nBlocchi = 20;//api.getBlockCount();
+	int nThread = 8; // non utilizzata!!
+	int blocchiThread = nBlocchi / nThread;
+	public static Blocco blocco; 
 
-	@SuppressWarnings("unchecked")
-	public BlockChain() throws IOException {
-
-		String hash;
-		api = new FetchAPI();
-		int nBlocchi = 800; // api.getBlockCount();
-		int nThread = 8;
-		int blocchiThread = nBlocchi / nThread;
-		for (int j = 0; j < nThread; j++) {
-			System.out.println("#############################");
-			System.out.println("#######INIZIO THREAD##########");
-			System.out.println("#############################");
-			for (int i = j * blocchiThread; i < blocchiThread; i++) {
-				hash = api.getBlockHash(i);// prendo l'hash del blocco
-				oggettoJSON = new Blocco(api.getBlock(hash));
-				blocco = oggettoJSON.getBlock1();
-				chain.add(i, blocco);// aggiungo alla chain[nell'indice i] il blocco ottenuto // usando il
-										// costruttore
-				System.out.println("BLOCK " + i); // della classe blocco sul oggetto JsonObject ottentuto dalla chiamata
-													// API.
-				System.out.println(chain.get(i).toString());
-				System.out.println("\n");
-			}
+	public BlockChain(int n) throws IOException {
+		for (int i=0;i<n ;i++) {
+			chain.add(api.getBlock(i));
+			System.out.println("/-> BLOCK " + i + "<-\\");
+			System.out.println(chain.get(i));
 		}
-
+		printChain();
 	}
 
-	public ArrayList<ArrayList> getChain() {
-		return chain;
-	}
+		
+	public void printChain() {
+		int i=0;
+		stampa("INIZIO STAMPA CHAIN COMPLETA");
+		for (Object b: chain) {
+			System.out.println(i+") "+ b.toString());
+			i++;
+		}
+		stampa("FINE STAMPA CHAIN COMPLETA");
 
-	public void setChain(ArrayList<ArrayList> chain) {
-		this.chain = chain;
 	}
-
-	public ArrayList<Object> getBlocco() {
-		return blocco;
+	public void stampa(String nThread) {
+		System.out.println("#############################");
+		System.out.println("#######INIZIO " + nThread + "##########");
+		System.out.println("#############################");
 	}
-
-	public void setBlocco(ArrayList<Object> blocco) {
-		this.blocco = blocco;
-	}
-
-	public static FetchAPI getApi() {
-		return api;
-	}
-
-	public static void setApi(FetchAPI api) {
-		BlockChain.api = api;
-	}
-
-	public static Blocco getOggettoJSON() {
-		return oggettoJSON;
-	}
-
-	public static void setOggettoJSON(Blocco oggettoJSON) {
-		BlockChain.oggettoJSON = oggettoJSON;
-	}
-
 
 }
