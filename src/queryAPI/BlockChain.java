@@ -28,7 +28,7 @@ public class BlockChain {
 	 * (multithreading, sicurezza in sezione critica)
 	 */
 
-	private List<Object> chain = new ArrayList<Object>();
+	private List<Blocco> chain = new ArrayList<Blocco>();
 	public static FetchAPI api = new FetchAPI(); // <<- Si occupa di prendere i blocchi tramite API [restituisce Oggetto
 													// JSON
 	int nBlocchi = 20;// api.getBlockCount();
@@ -36,8 +36,8 @@ public class BlockChain {
 	int blocchiThread = nBlocchi / nThread;
 	public static Blocco blocco;
 
-	public BlockChain(int n) throws IOException {
-		for (int i = 0; i < n; i++) {
+	public BlockChain(int nBlocchi) throws IOException {
+		for (int i = 0; i < nBlocchi; i++) {
 			chain.add(new Blocco(api.getBlock(i)));
 			System.out.println("/-> BLOCK " + i + "<-\\");
 			System.out.println(chain.get(i));
@@ -45,9 +45,32 @@ public class BlockChain {
 		printChain();
 	}
 
+	public BlockChain(List<Integer> lista) throws IOException {
+		for (Integer integer : lista) {
+			chain.add(new Blocco(api.getBlock(integer)));
+			System.out.println("/-> BLOCK " + integer + "<-\\");
+			System.out.println(chain.get(integer));
+		}
+		printChain();
+	}
+/*
+ * Il metodo calocla, elabora i blocchi per ogni thread
+ */
+	public void calcola(List<Integer> lista) throws IOException {
+		for (Integer integer : lista) {
+			chain.add(new Blocco(api.getBlock(integer)));
+			System.out.println("/-> BLOCK " + integer + "<-\\");
+			System.out.println(chain.get(integer));
+		}
+		printChain();
+	}
+
+	public void concatChain(List<Blocco> listBlock) {
+		this.chain.addAll(listBlock);
+	}
 	public void printChain() {
 		int i = 0;
-		stampa("INIZIO STAMPA CHAIN [stmp1]");
+		//stampa("INIZIO STAMPA CHAIN [stmp1]");
 		for (Object b : chain) {
 			System.out.println(i + ") " + b.toString());
 			i++;
@@ -58,8 +81,20 @@ public class BlockChain {
 
 	public void stampa(String Stringa) {
 		System.out.println("#############################");
-		System.out.println("#######" + nThread + "##########");
+		System.out.println("#######" + Stringa + "##########");
 		System.out.println("#############################");
+	}
+
+	public BlockChain() {
+		System.out.println("######Creato Chain VUOTA!######");
+	}
+
+	public List<Blocco> getChain() {
+		return chain;
+	}
+
+	public void setChain(List<Blocco> chain) {
+		this.chain = chain;
 	}
 
 }

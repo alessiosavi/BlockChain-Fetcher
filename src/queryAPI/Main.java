@@ -12,11 +12,12 @@ public class Main {
 	public static BlockChain chain;
 	public static Scanner reader;// Reading from System.in
 	static int nBlocchi;
+	public static int nThread=8;
 
-	public static void main(String[] args) throws IOException {
+	public void startVecchio() throws IOException {
 		Main main = new Main();
-		boolean check = false;
 		main.gui();
+		boolean check = false;
 		while (!check) {
 			nBlocchi = main.getInputNBlocchi();
 			// reader = new Scanner(System.in);
@@ -24,6 +25,21 @@ public class Main {
 			chain = new BlockChain(nBlocchi);
 			check = true;
 		}
+
+	}
+
+	public static void main(String[] args) throws IOException {
+		Main main = new Main();
+		main.gui();
+		boolean check = false;
+		while (!check) {
+			nBlocchi = main.getInputNBlocchi();
+			// reader = new Scanner(System.in);
+			// nBlocchi = reader.nextInt();
+			main.StartThread(nBlocchi, nThread);
+			check = true;
+		}
+
 	}
 
 	public int getInputNBlocchi() throws IOException {
@@ -52,10 +68,56 @@ public class Main {
 			Integer.parseInt(s);
 			return true;
 		} catch (NumberFormatException ex) {
-			System.out.println("PerchÃ¨ mi fai questo :(");
+			System.out.println("Perchè mi fai questo :(");
 			return false;
 		}
 	}
+
+	public ArrayList<List<Integer>> dividiBlocchi(int nBlocchi, int nThread) {
+
+		int nextThread = 0;
+		ArrayList<List<Integer>> listOfLists = new ArrayList<>();
+		for (int i = 0; i < nThread; i++) {
+			listOfLists.add(new ArrayList<>());
+		}
+		for (int i = 0; i < nBlocchi; i++) {
+			listOfLists.get(nextThread).add(i);
+			if (nextThread == (nThread - 1)) {
+				nextThread = 0;
+			} else {
+				nextThread++;
+			}
+		}
+
+		return listOfLists;
+	}
+
+	public void StartThread(int nBlocchi, int nThread) {
+		chain=new BlockChain();
+		ArrayList<List<Integer>> listOfLists = dividiBlocchi(nBlocchi, nThread);
+		List<FetchThread> listOfThread = new ArrayList<>();
+		for (int i = 0; i < nThread; i++) {
+			listOfThread.add(new FetchThread(listOfLists.get(i)));
+			listOfThread.get(i).run();
+		}
+		System.out.println("ORA CRASHA MA VA BENE UGUALE !!");
+		for (int i = 0; i < nThread; i++) {
+			// chain.setChain(chain.getChain().add((Blocco)
+			// listOfThread.get(i).getChain().getChain()));
+			chain.concatChain(listOfThread.get(i).getBlockChain().getChain());
+		}
+
+	}
+	/*
+	 * listOfT = new List<MioThread> listoflist = dividi(nb, nt) for nt
+	 * listOfT.add(new MioT(listOflist.get(nt))) listOfT.get(nT).run()
+	 * 
+	 * 
+	 * ...
+	 * 
+	 * for nt getChain
+	 * 
+	 */
 
 	public void gui() {
 		System.out.println("####################################################");
@@ -64,71 +126,6 @@ public class Main {
 		System.out.println("####   \t     \\->[20 blocchi default]<-/\t\t####");
 		System.out.println("####################################################");
 
-	}
-	
-	public ArrayList<List<Integer>> dividiblocchi (int nBlocchi){
-		//per 8 thread;
-		int nextThread = 0;
-		List<Integer> t0 = new ArrayList<>();
-		List<Integer> t1 = new ArrayList<>();
-		List<Integer> t2 = new ArrayList<>();
-		List<Integer> t3 = new ArrayList<>();
-		List<Integer> t4 = new ArrayList<>();
-		List<Integer> t5 = new ArrayList<>();
-		List<Integer> t6 = new ArrayList<>();
-		List<Integer> t7 = new ArrayList<>();
-		ArrayList<List<Integer>> listaDiListe = new ArrayList<>();
-		
-		
-		for (int i=0; i<nBlocchi; i++) {
-			switch (nextThread) {
-			case 0:
-				nextThread = 1;
-				t0.add(i);
-				break;
-			case 1:
-				nextThread = 2;
-				t1.add(i);
-				break;
-			case 2:
-				nextThread = 3;
-				t2.add(i);
-				break;
-			case 3:
-				nextThread = 4;
-				t3.add(i);
-				break;
-			case 4:
-				nextThread = 5;
-				t4.add(i);
-				break;
-			case 5:
-				nextThread = 6;
-				t5.add(i);
-				break;
-			case 6:
-				nextThread = 7;
-				t6.add(i);
-				break;
-			case 7:
-				nextThread = 0;
-				t7.add(i);
-				break;
-			}	
-		}
-		
-		listaDiListe.add(t0);
-		listaDiListe.add(t1);
-		listaDiListe.add(t2);
-		listaDiListe.add(t3);
-		listaDiListe.add(t4);
-		listaDiListe.add(t5);
-		listaDiListe.add(t6);
-		listaDiListe.add(t7);
-		
-		return listaDiListe;
-		
-		
 	}
 
 }

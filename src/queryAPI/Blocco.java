@@ -50,7 +50,7 @@ public class Blocco {
 
 	public Blocco(JsonObject oggettoAPI) {
 		String value = null;
-		System.out.println(oggettoAPI);
+		System.out.println(oggettoAPI.toString());
 		// key -> [hash,time,diff ecc..] value -> [034e32sf3,UnixTime(?), ecc..]
 		for (Object key : oggettoAPI.keySet()) {
 			value = oggettoAPI.get((String) key).toString();
